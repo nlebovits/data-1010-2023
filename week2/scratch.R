@@ -1,5 +1,4 @@
 library(tidyverse)
-install.packages("nycflights13")
 library(nycflights13)
 
 flights <- flights
@@ -32,3 +31,28 @@ cancel_count <- flights %>%
 delay_x_carrier <- flights %>%
                       group_by(carrier) %>%
                       summarize(avg_delay = mean(arr_delay, na.rm = TRUE))
+
+
+# proportion (%) of flights cancelled each day
+cancelled_flights <- flights %>%
+  filter(is.na(dep_delay), is.na(arr_delay))
+
+cancelled_flights %>%
+  mutate(perc_cancelled_flights = (cancelled_flights/flights)*100)
+
+flights %>%
+  
+  group_by(dest) %>%
+  summarise(arr_delay = n_distinct(arr_delay)) %>%
+  
+  arrange((arr_delay))
+
+avg_delay_x_dest <- flights %>%
+                        group_by(dest) %>%
+                        summarise(avg_delay = mean(arr_delay, na.rm = TRUE)) %>%
+                        arrange(avg_delay)
+
+
+
+
+
